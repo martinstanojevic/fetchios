@@ -1,5 +1,5 @@
 import Http from './http';
 
-export default new Http();
-
+export const Fetchios = Http;
 export * from './interceptors';
+export default new Http();
