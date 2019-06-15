@@ -1,3 +1,2 @@
-# fetchios
-Axios-inspired Fetch client.
-# fetchios
+# Fetchios
+[Axios](https://github.com/axios/axios)-inspired Fetch client.
