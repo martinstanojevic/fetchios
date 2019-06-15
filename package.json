@@ -5,7 +5,11 @@
   "main": "dist/index.js",
   "author": "Martin Stanojević",
   "license": "MIT",
+  "homepage": "https://github.com/martinstanojevic/fetchios",
   "scripts": {
     "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^3.5.2"
   }
 }
