@@ -1,0 +1,11 @@
+{
+  "name": "fetchios",
+  "version": "1.0.0",
+  "description": "Axios-inspired Fetch client.  ",
+  "main": "dist/index.js",
+  "author": "Martin Stanojević",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc"
+  }
+}

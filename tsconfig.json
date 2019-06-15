@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+      "baseUrl": "src/",
+      "outDir": "dist",
+      "target": "es5",
+      "module": "commonjs",
+      "declaration": true,
+      "lib": ["es2017", "dom"]
+    },
+    "exclude": [
+      "node_modules",
+      "dist"
+    ]
+  }
