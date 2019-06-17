@@ -21,11 +21,6 @@ const enum RequestTypes {
   DELETE = 'DELETE',
 }
 
-// TODO@martin check out https://github.com/Microsoft/TypeScript/issues/19656
-const DEFAULT_REQUEST_HEADERS: any = {
-  'Content-Type': 'application/json; charset=utf-8',
-};
-
 class Http {
   private interceptors: HttpInterceptors = {
     request: [],
@@ -158,7 +153,6 @@ class Http {
 
     const fetchOptions: RequestInit = {
       headers: {
-        ...DEFAULT_REQUEST_HEADERS,
         ...(options && options.headers !== undefined ? options.headers : {}),
       },
       method: type,
