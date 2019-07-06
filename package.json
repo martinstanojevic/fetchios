@@ -1,6 +1,6 @@
 {
   "name": "fetchios",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Axios-inspired Fetch client.",
   "main": "dist/index.js",
   "author": "Martin Stanojević",
