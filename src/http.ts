@@ -1,8 +1,12 @@
-import { HttpRequestInterceptor, HttpResponseInterceptor } from './types';
+import {
+  HTTPRequestInterceptor,
+  HTTPResponseInterceptor,
+  HTTPConfig,
+} from './types';
 
-interface HttpInterceptors {
-  request: HttpRequestInterceptor[];
-  response: HttpResponseInterceptor[];
+interface HTTPInterceptors {
+  request: HTTPRequestInterceptor[];
+  response: HTTPResponseInterceptor[];
 }
 
 interface RequestPayload {
@@ -22,15 +26,33 @@ const enum RequestTypes {
 }
 
 class Http {
-  private interceptors: HttpInterceptors = {
+  private interceptors: HTTPInterceptors = {
     request: [],
     response: [],
   };
 
-  constructor(
-    private baseURL: string = '',
-    private requestTimeoutSeconds: number = 60
-  ) {}
+  private baseURL: string = '';
+  private timeout: number = 60 * 1000;
+  private headers: object = {};
+
+  constructor(config?: HTTPConfig) {
+
+    if(config) {
+      const { baseURL, timeout, headers } = config;
+
+      if (baseURL) {
+        this.baseURL = baseURL;
+      }
+  
+      if (timeout) {
+        this.timeout = timeout;
+      }
+  
+      if (headers) {
+        this.headers = headers;
+      }
+    }
+  }
 
   // TODO@martins improve types
   public get(url: string, params?: object, options?: object) {
@@ -94,11 +116,11 @@ class Http {
     }
   }
 
-  public attachRequestInterceptor(interceptor: HttpRequestInterceptor) {
+  public attachRequestInterceptor(interceptor: HTTPRequestInterceptor) {
     this.interceptors.request.unshift(interceptor);
   }
 
-  public attachResponseInterceptor(interceptor: HttpResponseInterceptor) {
+  public attachResponseInterceptor(interceptor: HTTPResponseInterceptor) {
     this.interceptors.response.unshift(interceptor);
   }
 
@@ -115,7 +137,7 @@ class Http {
   private intercept<Promise>(...args: any) {
     let interceptedRequest = Promise.resolve(args);
 
-    this.interceptors.request.forEach((interceptor: HttpRequestInterceptor) => {
+    this.interceptors.request.forEach((interceptor: HTTPRequestInterceptor) => {
       interceptedRequest = interceptedRequest.then(args =>
         interceptor.request.apply(interceptor, args)
       );
@@ -126,7 +148,7 @@ class Http {
     );
 
     this.interceptors.response.forEach(
-      (interceptor: HttpResponseInterceptor) => {
+      (interceptor: HTTPResponseInterceptor) => {
         interceptedResponse = interceptedResponse.then(
           res =>
             interceptor.response
@@ -153,6 +175,7 @@ class Http {
 
     const fetchOptions: RequestInit = {
       headers: {
+        ...this.headers,
         ...(options && options.headers !== undefined ? options.headers : {}),
       },
       method: type,
@@ -174,7 +197,7 @@ class Http {
         reject({ message: 'Request timed-out' });
 
         controller.abort();
-      }, this.requestTimeoutSeconds * 1000);
+      }, this.timeout);
 
       try {
         const requestUrlString = requestUrl.toString();

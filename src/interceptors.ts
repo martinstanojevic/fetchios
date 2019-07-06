@@ -1,7 +1,7 @@
 import http from './index';
-import { HttpResponseInterceptor } from './types';
+import { HTTPResponseInterceptor } from './types';
 
-export class RetryErrorRequest implements HttpResponseInterceptor {
+export class RetryErrorRequest implements HTTPResponseInterceptor {
     retryMap = {};
   
     constructor(private retryTimes = 1) {}
